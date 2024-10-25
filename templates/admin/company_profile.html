@@ -4,12 +4,12 @@
 <style>
     .sidebar {
         position: absolute;
-        top:65.5px;
+        top: 65.5px;
         left: 0;
         height: 100%;
-        width: 230px; 
+        width: 230px;
         background: linear-gradient(180deg, #2c3e50, #00b4f6);
-        overflow-y: auto; 
+        overflow-y: auto;
         padding-top: 20px;
         z-index: 1000;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
@@ -17,17 +17,17 @@
         font-family: 'Arial Narrow', sans-serif;
         border-top-left-radius: 0px !important;
         border-top-right-radius: 0px !important;
+        transition: transform 0.3s ease-in-out;
     }
 
     .sidebar h2 {
-        
         color: #fff;
         font-size: 24px;
         font-weight: bold;
-        justify-content: center; 
+        justify-content: center;
         align-items: center;
         text-align: center;
-        display: flex; 
+        display: flex;
     }
 
     .sidebar a {
@@ -37,41 +37,29 @@
         color: #fff;
         display: block;
         transition: background-color 0.3s, color 0.3s;
-        border-radius: 4px; 
+        border-radius: 4px;
         margin: 2px 10px;
     }
 
-   
-
     .sidebar a.active {
-       
         color: yellow;
-        border-bottom: 3px !important;
-        border-color: yellow;
-        
-    }
-    .sidebar::-webkit-scrollbar {
-        display: none;
-    }
-    .sidebar {
-        -ms-overflow-style: none; /* IE and Edge */
-        scrollbar-width: none; /* Firefox */
     }
 
     .dropdown-container {
         display: none;
         line-height: 15px !important;
-        /* padding-top: -2px !important;  */ 
         padding-left: 2.5ch;
-        border-radius: 4px; 
+        border-radius: 4px;
         margin: 0;
+        width: 100% !important;
     }
 
     .dropdown-container a {
         font-size: 16px;
-        margin:  0;
-        padding-left: 2.5ch;
-        padding:8px  20px;
+        margin: 0;
+        width: 100% !important;
+        /* padding-left: 2.5ch;
+        padding: 8px 20px; */
     }
 
     .dropdown-btn {
@@ -84,44 +72,76 @@
         padding: 40px;
         transition: margin-left 0.3s;
     }
-    .dropdown-container .dropdown-container {
-        padding-left: 2ch !important;
-        margin: -1px;
-    }
+
     body {
         background-color: white;
         color: #333;
     }
 
-    h1, h2, h3, h4, h5, h6 {
-        color: #005792;
+    .sidebar {
+        position: fixed;
     }
 
-    .edit-icon {
-        display: none; 
-        position: absolute;
-        top: 50%;
-        right: 10px;
-        transform: translateY(-50%);
-        color: #fff; 
+    /* Enable scroll and hide scrollbar */
+    .sidebar::-webkit-scrollbar {
+        display: none;
     }
 
-    .sidebar a {
-        position: relative;
+    .sidebar {
+        scrollbar-width: none; /* Hide scrollbar in Firefox */
     }
-.sidebar::-webkit-scrollbar {
-    display: none;
-}
-.dropdown-container .dropdown-container {
-    padding-left: 0.2ch; 
-}
+
+    /* Sidebar hidden by default on small screens */
+    @media (max-width: 991px) {
+        .sidebar {
+            transform: translateX(-100%);
+        }
+
+        .sidebar.active {
+            transform: translateX(0);
+            transform: translateY(4.725%);
+            overflow-y: auto;
+        }
+
+        .main-content {
+            margin-left: 0;
+        }
+
+        /* Sidebar toggle button for smaller screens */
+        .sidebar-toggle-btn {
+            display: block;
+            position: absolute;
+            top: 40px; /* Default position under top navbar */
+            left: 0px;
+            background-color: #2c3e50;
+            color: white;
+            border: none;
+            font-size: 30px;
+            cursor: pointer;
+            z-index: 1001;
+            transition: top 0.3s ease;
+        }
+
+        /* When the topbar is expanded, move the sidebar toggle button down */
+        .topbar-expanded + .sidebar-toggle-btn {
+            top: 120px; /* Move downwards when the top navbar is expanded */
+        }
+    }
+
+    /* Hide sidebar toggle button on desktop screens */
+    @media (min-width: 992px) {
+        .sidebar-toggle-btn {
+            display: none;
+        }
+    }
+
 </style>
 {% block styles %}
 
 {% endblock styles %}
 
 <div>
-   
+    <button class="sidebar-toggle-btn" id="sidebar-toggle-btn">☰</button>
         <div class="sidebar">
             <h2 id="myCompanyName"></h2>
             <a class="dropdown-btn" href="#">Profile</a>
@@ -131,7 +151,7 @@
                 <a href="{% url 'pitch_and_product' company.company_id %}" class="{% if request.resolver_match.url_name == 'pitch_and_product' %}active{% endif %}">Product & Services</a>
                 <a href="{% url 'pitchvideoandppt' company.company_id %}" class="{% if request.resolver_match.url_name == 'pitchvideoandppt' %}active{% endif %}">Pitch Presentation & Video</a>
                 <a href="{% url 'business_plan' company.company_id %}" class="{% if request.resolver_match.url_name == 'business_plan' %}active{% endif %}">Business Plan & Financials</a>
-                <a href="{% url 'bench4' company.company_id %}" class="{% if request.resolver_match.url_name == 'bench4' %}active{% endif %}">Bench marking & Valuation</a>
+                <a href="{% url 'bench4' company.company_id %}" class="{% if request.resolver_match.url_name == 'bench4' %}active{% endif %}">Valuation</a>
                 <a href="{% url 'founders' company.company_id %}" class="{% if request.resolver_match.url_name == 'organization' %}active{% endif %}">Founders & Organization</a>
                 <a href="{% url 'cap_table' company.company_id %}" class="{% if request.resolver_match.url_name == 'cap_table' %}active{% endif %}">Cap Table</a>
                 <a href="{% url 'news_post' company.company_id %}" class="{% if request.resolver_match.url_name == 'news_post' %}active{% endif %}">News & Events</a>
@@ -199,8 +219,13 @@
 </div>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
+     document.addEventListener("DOMContentLoaded", function() {
         var dropdowns = document.getElementsByClassName("dropdown-btn");
+        var sidebar = document.getElementById("sidebar");
+        var sidebarToggleBtn = document.getElementById("sidebar-toggle-btn");
+        var topbarToggle = document.querySelector(".navbar-toggler");
+        var topbarCollapse = document.querySelector("#navbarNav");
+
         function toggleDropdown(dropdown) {
             var dropdownContent = dropdown.nextElementSibling;
             if (dropdownContent.style.display === "block") {
@@ -211,6 +236,7 @@
                 localStorage.setItem(dropdown.textContent.trim(), 'open');
             }
         }
+
         for (var i = 0; i < dropdowns.length; i++) {
             dropdowns[i].addEventListener("click", function() {
                 toggleDropdown(this);
@@ -220,40 +246,36 @@
                 dropdowns[i].nextElementSibling.style.display = 'block';
             }
         }
-        var currentUrl = window.location.href;
-        var menuItems = document.querySelectorAll('.sidebar a');
-        menuItems.forEach(function(item) {
-            if (item.href === currentUrl) {
-                item.classList.add('active');
-                var parentContainer = item.closest('.dropdown-container');
-                if (parentContainer) {
-                    parentContainer.style.display = 'block';
-                    var parentButton = parentContainer.previousElementSibling;
-                    if (parentButton) {
-                        localStorage.setItem(parentButton.textContent.trim(), 'open');
-                    }
-                }
+
+        // Sidebar toggle for mobile screens
+        sidebarToggleBtn.addEventListener("click", function() {
+            // Check if topbar is open, if so close it
+            if (topbarCollapse.classList.contains("show")) {
+                topbarToggle.click(); // Close top navbar
+            }
+            sidebar.classList.toggle("active"); // Toggle sidebar
+        });
+
+        // Topbar toggle for mobile screens
+        topbarToggle.addEventListener("click", function() {
+            // Check if sidebar is open, if so close it
+            if (sidebar.classList.contains("active")) {
+                sidebar.classList.remove("active"); // Close sidebar
             }
         });
-        menuItems.forEach(function(item) {
-            item.addEventListener('click', function() {
-                var activeItems = document.querySelectorAll('.sidebar a.active');
-                activeItems.forEach(function(activeItem) {
-                    activeItem.classList.remove('active');
-                    var parentContainer = activeItem.closest('.dropdown-container');
-                    if (parentContainer) {
-                        parentContainer.style.display = 'none';
-                        var parentButton = parentContainer.previousElementSibling;
-                        if (parentButton) {
-                            localStorage.setItem(parentButton.textContent.trim(), 'closed');
-                        }
-                    }
-                });
-            });
+
+        var selectedCompanyName = localStorage.getItem('selectedCompanyName');
+        document.getElementById('myCompanyName').innerHTML = selectedCompanyName ? selectedCompanyName.toUpperCase() : 'COMPANY NAME';
+
+        // Adjust sidebar toggle button position based on topbar toggle state
+        topbarToggle.addEventListener("click", function() {
+            var isExpanded = this.getAttribute("aria-expanded") === "true";
+            if (isExpanded) {
+                sidebarToggleBtn.style.top = "440px"; // Move the sidebar button down when topbar is expanded
+            } else {
+                sidebarToggleBtn.style.top = "40px"; // Reset to default when topbar is closed
+            }
         });
     });
-
-    var selectedCompanyName = localStorage.getItem('selectedCompanyName');
-    document.getElementById('myCompanyName').innerHTML = selectedCompanyName ? selectedCompanyName.toUpperCase() : 'COMPANY NAME';
 </script>
 {% endblock content %}

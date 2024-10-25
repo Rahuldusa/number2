@@ -26,8 +26,8 @@
             scrollbar-width: none; /* For Firefox */
         }
         .container::-webkit-scrollbar {
-    display: none; /* For Chrome, Safari, and Opera */
-}
+            display: none; /* For Chrome, Safari, and Opera */
+        }
         body {
             font-family: 'Arial MT Rounded';
             overflow: hidden;
@@ -132,6 +132,74 @@
             margin: 0;
             padding: 0;
             display: inline-block; /* Make sure it's displayed properly */
+        }
+        /* General styles for larger screens (laptops and desktops) */
+        @media (min-width: 1024px) {
+            .breadcrumb {
+                margin-left: 260px;
+                margin-top: 25px;
+                font-size: 18px;
+            }
+            /* .add-news-btn {
+                margin-left: 350px;
+                left: 50%; 
+                transform: translateX(-50%);
+            }  */
+
+            
+        }
+
+        /* Tablet screens (between 768px and 1023px) */
+        @media (min-width: 768px) and (max-width: 1023px) {
+            .breadcrumb {
+                margin-left: 20px;
+                margin-top: 20px;
+                font-size: 16px;
+            }
+            .add-news-btn {
+                margin-left: 350px;
+                /* margin-top: 20px; */
+                left: 50%; /* Center the button horizontally */
+                transform: translateX(-50%);
+            }
+            .container {
+                margin: 20px 20px 20px 0px;
+                
+            }
+
+            .main-content {
+                margin-top: 0px;
+                margin-left: 0px;
+                
+            }
+        }
+
+        /* Mobile screens (less than 768px) */
+        @media (max-width: 767px) {
+            .breadcrumb {
+                margin-left: 10px;
+                margin-top: 15px;
+                font-size: 14px;
+                text-align: center;
+            }
+            
+
+            .add-news-btn {
+                margin-left: 160px;
+                /* margin-top: 20px; */
+                left: 50%; /* Center the button horizontally */
+                transform: translateX(-50%);
+            }
+            .main-content {
+                margin-top: 0px;
+                margin-left: 0px;
+                
+            }
+            .container {
+                margin: 20px 20px 20px 0px;
+                
+            }
+            
         }
     </style>
 </head>

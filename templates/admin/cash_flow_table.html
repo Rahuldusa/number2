@@ -963,6 +963,58 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
+document.addEventListener('DOMContentLoaded', function () {
+    // Initially filter the table to show only monthly values
+    filterTable('monthly');
+
+    // Add event listeners to the buttons
+    document.querySelector('.btn-group').addEventListener('click', function (event) {
+        const target = event.target;
+        if (target.tagName === 'BUTTON') {
+            const period = target.textContent.trim().toLowerCase();
+            filterTable(period);
+        }
+    });
+});
+
+function filterTable(period) {
+    const headers = document.querySelectorAll('th .period-type');
+    const rows = document.querySelectorAll('tbody tr');
+
+    headers.forEach((header, index) => {
+        const periodType = header.textContent.trim().toLowerCase();
+        if (periodType === period) {
+            showColumn(index + 1);  // Show the column corresponding to the period
+        } else {
+            hideColumn(index + 1);  // Hide the column corresponding to the period
+        }
+    });
+
+    showColumn(0);  // Ensure the first column (Breakdown) is always shown
+}
+
+function showColumn(index) {
+    // Show the header
+    document.querySelectorAll('th')[index].style.display = ''; 
+
+    // Show all cells in this column
+    const rows = document.querySelectorAll('tbody tr');
+    rows.forEach(row => {
+        row.querySelectorAll('td')[index].style.display = ''; 
+    });
+}
+
+function hideColumn(index) {
+    // Hide the header
+    document.querySelectorAll('th')[index].style.display = 'none'; 
+
+    // Hide all cells in this column
+    const rows = document.querySelectorAll('tbody tr');
+    rows.forEach(row => {
+        row.querySelectorAll('td')[index].style.display = 'none';
+    });
+}
+
 
 </script>
 {% endblock content %}

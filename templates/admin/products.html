@@ -308,7 +308,7 @@
       display: flex;
       align-items: center; /* Center the image and text vertically */
       gap: 10px; /* Gap between image and text */
-      margin-left: 1200px;
+      margin-left: 75%;
       margin-top: 25px;
       padding: 0;
       position: fixed;
@@ -350,6 +350,97 @@
     cursor: pointer;
     padding: 0; /* Avoid extra padding around the icon */
     outline: none;
+}
+
+/* Tablet screens (between 768px and 1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+    .breadcrumb {
+        margin-left: 20px;
+        margin-top: 20px;
+        font-size: 16px;
+    }
+    .btn-custom {
+        margin-left: 150px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    .scrollable-content {
+        margin-left: 0px !important;
+    }
+    .product-card {
+        padding: 20px;
+        margin-bottom: 20px;
+        position: relative;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        background-color: #fff;
+        font-family: 'Arial MT Rounded';
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        flex-wrap: wrap;
+        width: 100%;
+        margin-top: 0px;
+        margin-left: 0px;
+    }
+    .submit-button img {
+        width: 40px;  /* Adjust the size */
+        height: 40px;
+        cursor: pointer;  /* Make it clickable */
+    }
+    .submit-button {
+        align-items: center;
+        gap: 10px;
+        margin-left: 700px;
+        margin-top: 0px;
+        position:unset;
+    }
+}
+
+/* Mobile screens (less than 768px) */
+@media (max-width: 767px) {
+    .breadcrumb {
+        display: none;
+    }
+    .scrollable-content {
+        margin-left: 0px !important;
+    }
+    .form-container {
+        display: block;  /* Stack form columns vertically */
+    }
+    .btn-custom {
+        margin-left: 160px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    .product-card {
+        width: 100%; /* Ensure the card takes up full width */
+        margin-top: 0px;
+        margin-left: 0px;
+    }
+    .card-buttons {
+        justify-content: space-around; /* Space buttons evenly for mobile screens */
+    }
+    .btn-edit img, .btn-delete img {
+        width: 24px; /* Adjust button icon size for mobile */
+        height: 24px;
+    }
+    .submit-button img {
+        width: 40px;  /* Adjust the size */
+        height: 40px;
+        cursor: pointer;  /* Make it clickable */
+    }
+    .submit-button {
+        align-items: center;
+        gap: 10px;
+        margin-left:280px;
+        margin-top: 0px;
+        position:unset;
+    }
+    /* .inline-inputs input {
+        width: 0px; 
+        margin-right: 0px; 
+    } */
 }
     </style>
 

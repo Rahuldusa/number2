@@ -281,14 +281,14 @@ body {
         .btn-custom {
       background-color: transparent; /* Set background color */
       border: none;
-      padding: 10px 20px;
+     
       border-radius: 10px;
       color: white;
       font-size: 16px;
       display: flex;
       align-items: center; /* Center the image and text vertically */
       gap: 10px; /* Gap between image and text */
-      margin-left: 1140px !important;
+      margin-left: 295% !important;
       margin-top: -37px;
     }
     .btn-custom img {
@@ -316,14 +316,36 @@ body {
                 height: 100px;
             }
         }
+        .loader-overlay {
+      display: none; /* Hidden by default */
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.8);
+      z-index: 1000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+  }
+  
+  .spinner-border {
+      width: 3rem;
+      height: 3rem;
+      color: #2c3e50; /* Customize color if needed */
+  }
   </style>
     
 </head>
 <body>
     <div class="breadcrumb">
-        <span>My Companies</span> &ndash; <span>{{ company.name }}</span> &ndash; <span class="bold-text">Products and Services</span>
+        <span>My Companies</span> &ndash; <span>{{ company.name }}</span> &ndash; <span class="bold-text">Pitch Deck and Video</span>
         <div class="btn btn-custom" id="add-section"><img src="{% static 'images/add.png' %}"></div>   
     </div>
+
+
+    
     <div class="container mt-4" style="padding: 0px !important;">
        
      
@@ -345,7 +367,7 @@ body {
                 <div class="col-lg-6">
                     <div class="card card-wrapper">
                         <div class="card-header">
-                            <p>New Pitch Presentation <br> <small>&lt;&lt; Upload the PDF or PPT format &gt;&gt;</small></p>
+                            <p>Pitch Deck <br> <small>&lt;&lt; Upload the PDF or PPT format &gt;&gt;</small></p>
                         </div>
                         <div class="card-body">
                             <div id="pdf-plus-icon_{{i.line_no}}" class="{% if i.ppt_file %}plus-icon uploaded{% else %}plus-icon{% endif %}">
@@ -382,7 +404,7 @@ body {
                 <div class="col-lg-6">
                     <div class="card card-wrapper">
                         <div class="card-header">
-                            <p>New Pitch Video <br> <small>&lt;&lt; Upload the MP4 format &gt;&gt;</small></p>
+                            <p>Pitch Video <br> <small>&lt;&lt; Upload the MP4 format &gt;&gt;</small></p>
                         </div>
                         <div class="card-body">
                             <div {% if i.video_file.name  %} class="plus-icon uploaded" {% else %} class="plus-icon" {% endif %} id="video-plus-icon_{{i.line_no}}">
@@ -402,7 +424,7 @@ body {
                                 {% if i.video_file.name  %}                                
                                     <div>
                                         <div>
-                                            <video width="100%" height="auto" controls>
+                                            <video width="60%" height="auto" controls>
                                                 <source src="{{ i.video_file.url }}" type="video/mp4">
                                                 Your browser does not support the video tag.
                                             </video>
@@ -433,24 +455,26 @@ body {
                     <div class="col-lg-6">
                         <div class="card card-wrapper">
                             <div class="card-header">
-                                <p>New Pitch Presentation <br> <small>&lt;&lt; Upload the PDF or PPT format &gt;&gt;</small></p>
+                                <p>Pitch Deck <br> <small>&lt;&lt; Upload the PDF or PPT format &gt;&gt;</small></p>
                             </div>
                             <div class="card-body">
                                 <div class="plus-icon {% if ppt_v %} {% for i in ppt_v %} {% if i.line_no == 1 and i.ppt_file %} uploaded {% endif %} {% endfor %} {% endif %}" id="pdf-plus-icon_1">
                                     {% if ppt_v %}
-                                        {% for i in ppt_v %}
-                                            {% if i.line_no == 1 and i.ppt_file %}
-                                                <!-- Edit icon when file is uploaded -->
-                                                <img src="{% static 'images/edit.png' %}">
-                                            {% else %}
-                                                <!-- Plus icon when no file is uploaded -->
-                                                <img src="{% static 'images/add.png' %}">
-                                            {% endif %}
-                                        {% endfor %}
-                                    {% else %}
-                                        <!-- Show Add icon when there is no uploaded file -->
-                                        <img src="{% static 'images/add.png' %}">
-                                    {% endif %}
+        {% for i in ppt_v %}
+            {% if i.line_no == 1 %}
+                {% if i.ppt_file %}
+                    <!-- Show Edit icon when file is uploaded -->
+                    <img src="{% static 'images/edit.png' %}">
+                {% else %}
+                    <!-- Show Plus icon when no file is uploaded -->
+                    <img src="{% static 'images/add.png' %}">
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+    {% else %}
+        <!-- Default: Show Add icon when there's no uploaded file -->
+        <img src="{% static 'images/add.png' %}">
+    {% endif %}
                                     
                                     <form id="form_new_pdf_1" method="post" enctype="multipart/form-data">
                                         {% csrf_token %}
@@ -483,24 +507,26 @@ body {
                     <div class="col-lg-6" style="padding: 0px;">
                         <div class="card card-wrapper">
                             <div class="card-header">
-                                <p>New Pitch Video <br> <small>&lt;&lt; Upload the MP4 format &gt;&gt;</small></p>
+                                <p>Pitch Video <br> <small>&lt;&lt; Upload the MP4 format &gt;&gt;</small></p>
                             </div>
                             <div class="card-body">
                                 <div class="plus-icon {% if ppt_v %} {% for i in ppt_v %} {% if i.line_no == 1 and i.video_file %} uploaded {% endif %} {% endfor %} {% endif %}" id="video-plus-icon_1">
                                     {% if ppt_v %}
-                                        {% for i in ppt_v %}
-                                            {% if i.line_no == 1 and i.video_file %}
-                                                <!-- Edit icon when file is uploaded -->
+                                    {% for i in ppt_v %}
+                                        {% if i.line_no == 1 %}
+                                            {% if i.video_file %}
+                                                <!-- Show Edit icon when video is uploaded -->
                                                 <img src="{% static 'images/edit.png' %}">
                                             {% else %}
-                                                <!-- Plus icon when no file is uploaded -->
+                                                <!-- Show Plus icon when no video is uploaded -->
                                                 <img src="{% static 'images/add.png' %}">
                                             {% endif %}
-                                        {% endfor %}
-                                    {% else %}
-                                        <!-- Show Add icon when there is no uploaded file -->
-                                        <img src="{% static 'images/add.png' %}">
-                                    {% endif %}
+                                        {% endif %}
+                                    {% endfor %}
+                                {% else %}
+                                    <!-- Default: Show Add icon when no video is uploaded -->
+                                    <img src="{% static 'images/add.png' %}">
+                                {% endif %}
                                     
                                     <form id="form_new_video_1" method="post" enctype="multipart/form-data">
                                         {% csrf_token %}
@@ -550,10 +576,6 @@ body {
 
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.12.313/pdf.min.js"></script>
-            
     {% if last_rec %}
     <script>
         var last_rec_1 = "{{last_rec}}";        
@@ -565,11 +587,17 @@ body {
     {% endif %}    
 
     <script>
- 
+          const productsCount = {{ products|length }};
+          
         const editIconUrl = "{% static 'images/edit.png' %}";
         let sectionCount = last_rec_1;        
 
         document.getElementById('add-section').addEventListener('click', function() {
+            if (sectionCount >= productsCount + 1) {
+                alert("Please add Products.");
+                return;
+            }
+
     sectionCount++;
 
     const newSectionHTML = `
@@ -586,7 +614,7 @@ body {
                 <div class="col-lg-6">
                     <div class="card card-wrapper">
                         <div class="card-header">
-                            <p>New Pitch Presentation <br> <small>&lt;&lt; Upload the PDF or PPT format &gt;&gt;</small></p>
+                            <p>Pitch Deck <br> <small>&lt;&lt; Upload the PDF or PPT format &gt;&gt;</small></p>
                         </div>
                         <div class="card-body">
                             <div class="plus-icon" id="pdf-plus-icon_${sectionCount}">
@@ -603,7 +631,7 @@ body {
                 <div class="col-lg-6">
                     <div class="card card-wrapper">
                         <div class="card-header">
-                            <p>New Pitch Video <br> <small>&lt;&lt; Upload the MP4 format &gt;&gt;</small></p>
+                            <p>Pitch Video <br> <small>&lt;&lt; Upload the MP4 format &gt;&gt;</small></p>
                         </div>
                         <div class="card-body">
                             <div class="plus-icon" id="video-plus-icon_${sectionCount}">
@@ -646,6 +674,17 @@ attachEventListeners();
             const form = document.getElementById(`form_new_${fileInput.name === 'ppt_file' ? 'pdf' : 'video'}_${sectionNumber}`);
             const formData = new FormData(form);
             formData.append('line_no', sectionNumber);
+           
+            const productSelect = document.getElementById(`p_name_${sectionNumber}`);
+            if (sectionNumber != 1) {
+            const productSelect = document.getElementById(`p_name_${sectionNumber}`);
+            if (!productSelect || productSelect.value === "") {
+                alert("Please select the Products before uploading.");
+                return;
+            }
+            formData.append('p_name', productSelect.value);
+        }
+       
             
             
             const p_label = document.getElementById(`p_name_${sectionNumber}`);
